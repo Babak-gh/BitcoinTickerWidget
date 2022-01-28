@@ -1,19 +1,41 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootView"
     style="@style/Widget.Alephba.AppWidget.Container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/Theme.Alephba.AppWidgetContainer">
 
-    <TextView
-        android:id="@+id/appwidget_text"
-        style="@style/Widget.Alephba.AppWidget.InnerView"
+    <ImageView
+        android:id="@+id/appwidget_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:layout_margin="8dp"
+        android:src="@drawable/ic_bitcoin_logo" />
+
+    <TextView
+        android:id="@+id/appwidget_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_toEndOf="@+id/appwidget_image"
         android:contentDescription="@string/appwidget_text"
         android:text="@string/appwidget_text"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/appwidget_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_below="@+id/appwidget_text"
+        android:textSize="28sp"
+        android:textColor="@color/black"
+        android:textStyle="bold|italic"
+        android:text="$35000" />
+
 </RelativeLayout>

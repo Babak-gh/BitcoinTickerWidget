@@ -1,8 +1,10 @@
 package com.example.android.alephba
 
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
+import android.content.Intent
 import android.widget.RemoteViews
 
 /**
@@ -42,10 +44,20 @@ internal fun updateAppWidget(
     appWidgetManager: AppWidgetManager,
     appWidgetId: Int
 ) {
+
+    val pendingIntent: PendingIntent = PendingIntent.getActivity(
+        context,
+        0,
+        Intent(context, MainActivity::class.java),
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+    )
+
     val widgetText = loadTitlePref(context, appWidgetId)
     // Construct the RemoteViews object
-    val views = RemoteViews(context.packageName, R.layout.alephba_widget)
-    views.setTextViewText(R.id.appwidget_text, widgetText)
+    val views = RemoteViews(context.packageName, R.layout.alephba_widget).apply {
+        setOnClickPendingIntent(R.id.rootView, pendingIntent)
+    }
+    //views.setTextViewText(R.id.appwidget_price, "")
 
     // Instruct the widget manager to update the widget
     appWidgetManager.updateAppWidget(appWidgetId, views)
