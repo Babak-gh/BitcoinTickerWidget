@@ -45,4 +45,5 @@ object NetworkModule {
     @Provides
     fun providePriceService(retrofit: Retrofit) = retrofit.create(PriceService::class.java)
 
+
 }

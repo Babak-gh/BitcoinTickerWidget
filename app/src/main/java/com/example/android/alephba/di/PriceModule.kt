@@ -1,8 +1,10 @@
 package com.example.android.alephba.di
 
+import com.example.android.alephba.data.source.LocalPriceDataSource
 import com.example.android.alephba.data.source.PriceDataSource
 import com.example.android.alephba.data.source.PriceRepository
 import com.example.android.alephba.data.source.PriceRepositoryImp
+import com.example.android.alephba.data.source.local.LocalPriceDataSourceImp
 import com.example.android.alephba.data.source.remote.RemotePriceDataSource
 import dagger.Binds
 import dagger.Module
@@ -17,6 +19,11 @@ abstract class PriceModule {
     abstract fun bindPriceRemoteDataSource(
         priceRemoteDataSourceImp: RemotePriceDataSource
     ): PriceDataSource
+
+    @Binds
+    abstract fun bindPriceLocalDataSource(
+        localPriceDataSource: LocalPriceDataSourceImp
+    ): LocalPriceDataSource
 
     @Binds
     abstract fun bindAuthRepository(

@@ -8,7 +8,7 @@
         <entry key="app/src/main/res/drawable-v21/app_widget_inner_view_background.xml" value="0.27384615384615385" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.27384615384615385" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.27384615384615385" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.15670289855072464" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/alephba_widget.xml" value="0.33" />
         <entry key="app/src/main/res/layout/alephba_widget_configure.xml" value="0.25" />
       </map>

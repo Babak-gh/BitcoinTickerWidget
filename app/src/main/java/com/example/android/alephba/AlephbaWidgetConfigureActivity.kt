@@ -7,7 +7,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import androidx.work.*
 import com.example.android.alephba.databinding.AlephbaWidgetConfigureBinding
+import java.util.concurrent.TimeUnit
 
 /**
  * The configuration screen for the [AlephbaWidget] AppWidget.
@@ -24,7 +26,7 @@ class AlephbaWidgetConfigureActivity : Activity() {
 
         // It is the responsibility of the configuration activity to update the app widget
         val appWidgetManager = AppWidgetManager.getInstance(context)
-        updateAppWidget(context, appWidgetManager, appWidgetId)
+        updateAppWidget(context, appWidgetManager, appWidgetId, "Fetching")
 
         // Make sure we pass back the original appWidgetId
         val resultValue = Intent()
@@ -36,6 +38,15 @@ class AlephbaWidgetConfigureActivity : Activity() {
 
     public override fun onCreate(icicle: Bundle?) {
         super.onCreate(icicle)
+
+        WorkManager.getInstance(this)
+            .enqueueUniquePeriodicWork(
+                "priceUpdater", ExistingPeriodicWorkPolicy.KEEP,
+                PeriodicWorkRequestBuilder<PriceUpdaterWorker>(5, TimeUnit.MINUTES).setConstraints(
+                    Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED)
+                        .setRequiresBatteryNotLow(true).build()
+                ).build()
+            )
 
         // Set the result to CANCELED.  This will cause the widget host to cancel
         // out of the widget placement if the user presses the back button.
