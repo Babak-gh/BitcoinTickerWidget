@@ -5,6 +5,7 @@ import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import com.example.android.alephba.data.PriceUpdaterWorker
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 

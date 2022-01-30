@@ -8,8 +8,8 @@ import android.content.Intent
 import android.util.Log
 import android.widget.RemoteViews
 import androidx.work.*
-import com.example.android.alephba.PriceUpdaterWorker
 import com.example.android.alephba.R
+import com.example.android.alephba.data.PriceUpdaterWorker
 import com.example.android.alephba.domain.PriceGetterUseCase
 import com.example.android.alephba.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
