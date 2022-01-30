@@ -1,5 +1,6 @@
 # BitcoinTickerWidget
 Simple Bitcoin Price Widget that gets the bitcoin price using [https://blockchain.info/tobtc?currency=USD&value=1](https://www.blockchain.com/api) API.
+The Widget update itself every 15 minute with a `PeriodicWorkRequest`
 
 ## Technology and Stack:
   * Module by layer Architecture
