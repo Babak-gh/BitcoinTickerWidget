@@ -9,6 +9,7 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.android.alephba.data.source.PriceRepository
+import com.example.android.alephba.ui.widget.AlephbaWidget
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
@@ -25,6 +26,7 @@ class PriceUpdaterWorker @AssistedInject constructor(
         val res = priceRepository.updateBitcoinPrice()
         return if (res.isSuccess()) {
             val remoteViews = RemoteViews(appContext.packageName, R.layout.alephba_widget)
+            Log.d("Babak", "After WorkManager")
             AppWidgetManager.getInstance(appContext).updateAppWidget(
                 ComponentName(
                     appContext,

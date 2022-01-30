@@ -1,11 +1,19 @@
 package com.example.android.alephba.ui
 
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.os.Bundle
 import android.view.View
+import android.widget.RemoteViews
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.example.android.alephba.R
 import com.example.android.alephba.databinding.ActivityMainBinding
+import com.example.android.alephba.ui.widget.AlephbaWidget
 import dagger.hilt.android.AndroidEntryPoint
+
+
+
 
 
 @AndroidEntryPoint
@@ -24,12 +32,14 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.bitcoinPriceLiveData.observe(this) {
             binding.bitcoinPrice.text = it
-//            val remoteViews = RemoteViews(this.packageName, R.layout.alephba_widget)
-//            AppWidgetManager.getInstance(this).updateAppWidget(
-//                ComponentName(
-//                    application,
-//                    AlephbaWidget::class.java
-//                ), remoteViews)
+
+            val remoteViews = RemoteViews(this.packageName, R.layout.alephba_widget)
+            AppWidgetManager.getInstance(this).updateAppWidget(
+                ComponentName(
+                    this,
+                    AlephbaWidget::class.java
+                ), remoteViews
+            )
         }
 
         viewModel.viewStateLiveData.observe(this) { it ->

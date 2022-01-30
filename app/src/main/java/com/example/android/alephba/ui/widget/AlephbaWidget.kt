@@ -1,4 +1,4 @@
-package com.example.android.alephba
+package com.example.android.alephba.ui.widget
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -7,6 +7,9 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.RemoteViews
+import androidx.work.*
+import com.example.android.alephba.PriceUpdaterWorker
+import com.example.android.alephba.R
 import com.example.android.alephba.domain.PriceGetterUseCase
 import com.example.android.alephba.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,6 +17,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -34,6 +38,7 @@ class AlephbaWidget : AppWidgetProvider() {
         Log.d("Babak", "Widget")
         CoroutineScope(Dispatchers.Main).launch {
             val bitcoinPrice = priceGetterUseCase.invoke().firstOrNull()
+            Log.d("Babak", bitcoinPrice.toString())
             // There may be multiple widgets active, so update all of them
             for (appWidgetId in appWidgetIds) {
                 updateAppWidget(context, appWidgetManager, appWidgetId, bitcoinPrice)
@@ -42,19 +47,17 @@ class AlephbaWidget : AppWidgetProvider() {
 
     }
 
-    override fun onDeleted(context: Context, appWidgetIds: IntArray) {
-        // When the user deletes the widget, delete the preference associated with it.
-        for (appWidgetId in appWidgetIds) {
-            deleteTitlePref(context, appWidgetId)
-        }
-    }
-
-    override fun onEnabled(context: Context) {
-        // Enter relevant functionality for when the first widget is created
-    }
-
-    override fun onDisabled(context: Context) {
-        // Enter relevant functionality for when the last widget is disabled
+    override fun onEnabled(context: Context?) {
+        super.onEnabled(context)
+        val worker =
+            PeriodicWorkRequestBuilder<PriceUpdaterWorker>(15, TimeUnit.MINUTES).setConstraints(
+                Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+            ).build()
+        WorkManager.getInstance(context!!)
+            .enqueueUniquePeriodicWork(
+                "priceUpdater", ExistingPeriodicWorkPolicy.KEEP,
+                worker
+            )
     }
 }
 

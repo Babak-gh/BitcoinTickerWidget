@@ -2,9 +2,10 @@ package com.example.android.alephba
 
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
-import androidx.work.*
+import androidx.work.Configuration
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import dagger.hilt.android.HiltAndroidApp
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -22,21 +23,12 @@ class AlephbaApplication : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
 
-
-        val worker =
-            PeriodicWorkRequestBuilder<PriceUpdaterWorker>(15, TimeUnit.MINUTES).setConstraints(
-                Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
-            ).build()
         val test = OneTimeWorkRequestBuilder<PriceUpdaterWorker>().build()
         WorkManager.getInstance(this)
             .enqueue(
                 test
             )
-//        WorkManager.getInstance(this)
-//            .enqueueUniquePeriodicWork(
-//                "priceUpdater", ExistingPeriodicWorkPolicy.KEEP,
-//                worker
-//            )
+
 
     }
 }
