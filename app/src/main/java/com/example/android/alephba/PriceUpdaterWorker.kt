@@ -5,7 +5,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import android.widget.RemoteViews
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
@@ -27,7 +26,6 @@ class PriceUpdaterWorker @AssistedInject constructor(
         Log.d("Babak", "WorkManager")
         val res = priceRepository.updateBitcoinPrice()
         return if (res.isSuccess()) {
-            val remoteViews = RemoteViews(appContext.packageName, R.layout.alephba_widget)
             Log.d("Babak", "After WorkManager")
             val intent = Intent(appContext, AlephbaWidget::class.java)
             intent.action = REFRESH_ACTION

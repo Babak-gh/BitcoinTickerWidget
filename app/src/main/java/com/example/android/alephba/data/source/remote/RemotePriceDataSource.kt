@@ -1,8 +1,6 @@
 package com.example.android.alephba.data.source.remote
 
-import com.example.android.alephba.data.model.Error
-import com.example.android.alephba.data.model.Response
-import com.example.android.alephba.data.model.Success
+import com.example.android.alephba.data.model.*
 import com.example.android.alephba.data.source.PriceDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -18,11 +16,11 @@ class RemotePriceDataSource @Inject constructor(
                 if (bitcoinPriceResponse.isSuccessful) {
                     Success(bitcoinPriceResponse.body()?.string()!!)
                 } else {
-                    Error("Error")
+                    Error(ErrorModel(bitcoinPriceResponse.code(), bitcoinPriceResponse.message()))
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Error("Error")
+                NetworkError
             }
 
 

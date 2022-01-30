@@ -50,9 +50,9 @@ class MainActivity : AppCompatActivity() {
                 is Data -> {
                     binding.contentProgressBar.visibility = View.GONE
                 }
-                is Error -> {
+                is UiError -> {
                     binding.contentProgressBar.visibility = View.GONE
-                    binding.bitcoinPrice.text = it.error
+                    binding.bitcoinPrice.text = it.error.message
                 }
 
             }

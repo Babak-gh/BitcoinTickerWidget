@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.android.alephba.data.model.Error
+import com.example.android.alephba.data.model.ErrorModel
 import com.example.android.alephba.domain.PriceGetterUseCase
 import com.example.android.alephba.domain.PriceUpdaterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -35,7 +37,12 @@ class MainViewModel @Inject constructor(
             if (res.isSuccess()) {
                 _viewStateLiveData.value = Data(Unit)
             } else {
-                _viewStateLiveData.value = Error("Error")
+                if (res is Error) {
+                    _viewStateLiveData.value = UiError(res.error)
+                } else {
+                    _viewStateLiveData.value =
+                        UiError(ErrorModel(0, "Please Check you internet connection"))
+                }
             }
 
         }
