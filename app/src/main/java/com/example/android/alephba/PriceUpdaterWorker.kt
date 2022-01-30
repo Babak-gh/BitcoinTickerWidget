@@ -3,6 +3,7 @@ package com.example.android.alephba
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.widget.RemoteViews
 import androidx.hilt.work.HiltWorker
@@ -10,6 +11,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.android.alephba.data.source.PriceRepository
 import com.example.android.alephba.ui.widget.AlephbaWidget
+import com.example.android.alephba.ui.widget.REFRESH_ACTION
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
@@ -27,12 +29,16 @@ class PriceUpdaterWorker @AssistedInject constructor(
         return if (res.isSuccess()) {
             val remoteViews = RemoteViews(appContext.packageName, R.layout.alephba_widget)
             Log.d("Babak", "After WorkManager")
-            AppWidgetManager.getInstance(appContext).updateAppWidget(
+            val intent = Intent(appContext, AlephbaWidget::class.java)
+            intent.action = REFRESH_ACTION
+            val ids = AppWidgetManager.getInstance(appContext).getAppWidgetIds(
                 ComponentName(
                     appContext,
                     AlephbaWidget::class.java
-                ), remoteViews
+                )
             )
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+            appContext.sendBroadcast(intent)
             Result.success()
         } else {
             Result.retry()

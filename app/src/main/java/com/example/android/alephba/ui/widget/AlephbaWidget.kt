@@ -24,6 +24,9 @@ import javax.inject.Inject
  * Implementation of App Widget functionality.
  * App Widget Configuration implemented in [AlephbaWidgetConfigureActivity]
  */
+const val REFRESH_ACTION: String = "com.example.android.alephba.REFRESH_ACTION"
+
+
 @AndroidEntryPoint
 class AlephbaWidget : AppWidgetProvider() {
 
@@ -45,6 +48,26 @@ class AlephbaWidget : AppWidgetProvider() {
             }
         }
 
+    }
+
+    override fun onReceive(context: Context?, intent: Intent?) {
+        super.onReceive(context, intent)
+        if (intent != null && intent.action != null) {
+            if (intent.action?.equals(REFRESH_ACTION)!!) {
+                val extras = intent.extras
+                if (extras != null) {
+                    val appWidgetIds = extras.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
+                    if (appWidgetIds != null && appWidgetIds.isNotEmpty()) {
+                        Log.d("Babak", "onReceive")
+                        this.onUpdate(
+                            context!!,
+                            AppWidgetManager.getInstance(context),
+                            appWidgetIds
+                        );
+                    }
+                }
+            }
+        }
     }
 
     override fun onEnabled(context: Context?) {
